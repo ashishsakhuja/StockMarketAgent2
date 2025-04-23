@@ -11,7 +11,8 @@ dependencies = [
     "requests",
     "scikit-learn",
     "pydantic",
-    "numpy"
+    "numpy",
+    "agentops"
 ]
 
 [project.scripts]
