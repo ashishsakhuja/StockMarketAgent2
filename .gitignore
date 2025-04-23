@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.env
+
+# macOS/Windows/Linux
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Python packages
+*.egg-info/
+
+# Logs
+*.log
+
+# CrewAI Cache (optional)
+.cache/
+
+# PyCharm
+.idea/
+

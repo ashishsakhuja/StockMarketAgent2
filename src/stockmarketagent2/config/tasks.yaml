@@ -1,0 +1,27 @@
+fetch_stock_data:
+  agent_id: stock_data_analyst
+  description: Analyze {years} years of historical stock data for {ticker} using the stock data tool. Summarize price trends and moving average deviations.
+  expected_output: Insightful breakdown of stock price trends and key indicators.
+
+fetch_news:
+  agent_id: news_analyst
+  description: Scrape financial news and summarize key insights for {ticker}.
+  expected_output: Summary of latest earnings reports and headlines.
+
+forecast_price:
+  agent_id: investment_advisor
+  description: Use the ForecastPrice tool to predict the stock price for {ticker} after {years} years.
+  expected_output: Predicted future price using historical data and linear regression.
+
+estimate_roi:
+  agent_id: investment_advisor
+  description: Use the EstimateROI tool to estimate annualized return for {ticker} over the last {years} years.
+  expected_output: Estimated ROI expressed as a percent annual return.
+
+provide_recommendation:
+  agent_id: investment_advisor
+  description: Based on stock data, forecast, ROI, and news analysis for a {years}-year outlook, determine if {ticker} is a Buy, Hold, or Sell.
+  expected_output: >
+    Final investment decision with reasoning. Explicitly mention Buy, Hold, or Sell. 
+    Explicitly mention confidence level percentage. Explicitly mention a price prediction. 
+    Explicitly mention any sources used at the end, including website links.
