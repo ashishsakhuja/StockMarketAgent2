@@ -9,12 +9,6 @@ resolution-markers = [
 ]
 
 [[packages]]
-name = "agentops"
-version = "0.4.6"
-sdist = { url = "https://files.pythonhosted.org/packages/d0/07/3869f9b99dbc45ac55bc0dbfd8cf6b22de850a716004135ec96a29c3d81e/agentops-0.4.6.tar.gz", upload-time = 2025-04-07T22:19:00Z, size = 254164, hashes = { sha256 = "78179a0d2c02217445fb7315bb963496bb338c96bcc126bebfb45a5733fea23e" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/31/61/24fa78f759c68e1484ed04ed6d0d60ad4b6b58d02570a65dc670975fd954/agentops-0.4.6-py3-none-any.whl", upload-time = 2025-04-07T22:18:58Z, size = 160863, hashes = { sha256 = "283929b8f7a1bc79693a6c982e012ccceac4645c6a35709603e7ff83332ec00d" } }]
-
-[[packages]]
 name = "aiohappyeyeballs"
 version = "2.6.1"
 sdist = { url = "https://files.pythonhosted.org/packages/26/30/f84a107a9c4331c14b2b586036f40965c128aa4fee4dda5d3d51cb14ad54/aiohappyeyeballs-2.6.1.tar.gz", upload-time = 2025-03-12T01:42:48Z, size = 22760, hashes = { sha256 = "c3f9d0113123803ccadfdf3f0faa505bc78e6a72d1cc4806cbd719826e943558" } }
