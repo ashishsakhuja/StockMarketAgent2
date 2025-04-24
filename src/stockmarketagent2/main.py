@@ -54,16 +54,15 @@ def replay():
         raise Exception(f"An error occurred while replaying the crew: {e}")
 
 def test():
-    """
-    Test the crew execution and returns the results.
-    """
+    ticker = input("📈 Enter stock ticker (e.g. AAPL): ").upper()
+    years = float(input("📅 Enter number of years to analyze (e.g. 1, 0.5, 3): "))
+
     inputs = {
-        "ticker": sys.argv[3].upper(),
-        "years": float(sys.argv[4])
+        'ticker': ticker,
+        'years': years
     }
 
     try:
-        Stockmarketagent2().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
-
+        Stockmarketagent2().crew().kickoff(inputs=inputs)
     except Exception as e:
-        raise Exception(f"An error occurred while testing the crew: {e}")
+        raise Exception(f"An error occurred while running the crew: {e}")
