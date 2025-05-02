@@ -15,12 +15,12 @@ def run():
     """
     Run the crew with user input for ticker and years.
     """
-    ticker = input("📈 Enter stock ticker (e.g. AAPL): ").upper()
-    years = float(input("📅 Enter number of years to analyze (e.g. 1, 0.5, 3): "))
+    # ticker = input("📈 Enter stock ticker (e.g. AAPL): ").upper()
+    # years = float(input("📅 Enter number of years to analyze (e.g. 1, 0.5, 3): "))
 
     inputs = {
-        'ticker': ticker,
-        'years': years
+        'ticker': 'AAPL',
+        'years': 1.0
     }
 
     try:
@@ -54,12 +54,12 @@ def replay():
         raise Exception(f"An error occurred while replaying the crew: {e}")
 
 def test():
-    ticker = input("📈 Enter stock ticker (e.g. AAPL): ").upper()
-    years = float(input("📅 Enter number of years to analyze (e.g. 1, 0.5, 3): "))
+    # ticker = input("📈 Enter stock ticker (e.g. AAPL): ").upper()
+    # years = float(input("📅 Enter number of years to analyze (e.g. 1, 0.5, 3): "))
 
     inputs = {
-        'ticker': ticker,
-        'years': years
+        'ticker': 'AAPL',
+        'years': 1.0
     }
 
     try:
