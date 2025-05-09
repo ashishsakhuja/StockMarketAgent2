@@ -87,8 +87,19 @@ class Stockmarketagent2():
 	def crew(self) -> Crew:
 		"""Creates the Stockmarketagent2 crew"""
 		return Crew(
-			agents=self.agents,
-			tasks=self.tasks,
+			agents=[
+				self.stock_data_analyst(),
+				self.news_analyst(),
+				self.investment_advisor(),
+			],
+			tasks=[
+				self.fetch_stock_data(),
+				self.fetch_news(),
+				self.forecast_price(),
+				self.estimate_roi(),
+				self.provide_recommendation(),
+			],
+
 			process=Process.sequential,  # or Process.hierarchical
 			verbose=True
 		)
