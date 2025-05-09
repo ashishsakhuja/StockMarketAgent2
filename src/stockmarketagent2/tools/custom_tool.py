@@ -1,4 +1,3 @@
-from crewai.tools import BaseTool
 from typing import Type
 from pydantic import BaseModel, Field
 import yfinance as yf
@@ -10,18 +9,15 @@ from sklearn.linear_model import LinearRegression
 # ---------- Stock Data Tool ----------
 
 class StockDataToolInput(BaseModel):
-    """Input schema for StockDataTool."""
     stock_ticker: str = Field(..., description="The stock ticker symbol (e.g., AAPL, TSLA)")
     years: float = Field(..., description="How many years of data to retrieve (e.g., 0.5, 1, 3)")
 
-class StockDataTool(BaseTool):
+class StockDataTool:
     name: str = "GetStockData"
-    description: str = (
-        "Retrieves historical stock data and computes short- and long-term SMAs based on years provided."
-    )
+    description: str = "Retrieves historical stock data and computes SMAs."
     args_schema: Type[BaseModel] = StockDataToolInput
 
-    def _run(self, stock_ticker: str, years: float) -> str:
+    def run(self, stock_ticker: str, years: float) -> str:
         try:
             stock = yf.Ticker(stock_ticker)
             period = f"{int(years)}y" if years >= 1 else "6mo"
@@ -52,26 +48,24 @@ class StockDataTool(BaseTool):
                 f"Long-term SMA: ${sma_long:.2f} ({long_dev:.2f}% deviation)"
             )
         except Exception as e:
-            return f"Could not retrieve stock data for {stock_ticker}. Error: {str(e)}"
+            return f"Error fetching stock data: {str(e)}"
+
 
 # ---------- News Tool ----------
 
 class StockNewsToolInput(BaseModel):
-    """Input schema for StockNewsTool."""
     stock_ticker: str = Field(..., description="The stock ticker symbol to get news about.")
 
-class StockNewsTool(BaseTool):
+class StockNewsTool:
     name: str = "GetStockNews"
-    description: str = "Scrapes recent financial news headlines and summaries for a given stock ticker symbol."
+    description: str = "Scrapes recent financial news for a stock."
     args_schema: Type[BaseModel] = StockNewsToolInput
 
-    def _run(self, stock_ticker: str) -> str:
+    def run(self, stock_ticker: str) -> str:
         try:
             query = f"{stock_ticker} stock news"
             url = f"https://www.google.com/search?q={query}&tbm=nws"
-            headers = {
-                "User-Agent": "Mozilla/5.0"
-            }
+            headers = {"User-Agent": "Mozilla/5.0"}
 
             response = requests.get(url, headers=headers)
             soup = BeautifulSoup(response.text, "html.parser")
@@ -87,23 +81,22 @@ class StockNewsTool(BaseTool):
         except Exception as e:
             return f"Error fetching news: {str(e)}"
 
+
 # ---------- Forecast Price Tool ----------
 
 class ForecastPriceToolInput(BaseModel):
-    """Input schema for ForecastPriceTool."""
     stock_ticker: str = Field(..., description="Stock ticker symbol (e.g., AAPL)")
-    years: int = Field(..., description="Number of years to forecast (e.g., 1, 3, 5)")
+    years: int = Field(..., description="Years to forecast (e.g., 1, 3, 5)")
 
-class ForecastPriceTool(BaseTool):
+class ForecastPriceTool:
     name: str = "ForecastPrice"
-    description: str = "Uses linear regression to forecast the stock price after the given number of years."
+    description: str = "Forecasts stock price using linear regression."
     args_schema: Type[BaseModel] = ForecastPriceToolInput
 
-    def _run(self, stock_ticker: str, years: int) -> str:
+    def run(self, stock_ticker: str, years: int) -> str:
         try:
             stock = yf.Ticker(stock_ticker)
-            hist = stock.history(period="max")
-            hist = hist.dropna()
+            hist = stock.history(period="max").dropna()
 
             if hist.empty:
                 return f"No historical data found for {stock_ticker}."
@@ -114,31 +107,29 @@ class ForecastPriceTool(BaseTool):
             model = LinearRegression()
             model.fit(days, prices)
 
-            future_days = len(prices) + int(years * 252)  # Approx. trading days/year
+            future_days = len(prices) + int(years * 252)
             predicted_price = model.predict([[future_days]])[0]
 
             return f"Predicted price for {stock_ticker} after {years} years: ${predicted_price:.2f}"
         except Exception as e:
-            return f"Could not forecast price for {stock_ticker}. Error: {str(e)}"
+            return f"Error forecasting price: {str(e)}"
 
 
 # ---------- Estimate ROI Tool ----------
 
 class EstimateROIToolInput(BaseModel):
-    """Input schema for EstimateROITool."""
     stock_ticker: str = Field(..., description="Stock ticker symbol (e.g., AAPL)")
-    years: int = Field(..., description="Time horizon in years for ROI estimation")
+    years: int = Field(..., description="Time horizon in years")
 
-class EstimateROITool(BaseTool):
+class EstimateROITool:
     name: str = "EstimateROI"
-    description: str = "Estimates the annualized ROI over the given number of years."
+    description: str = "Estimates annualized ROI over a given number of years."
     args_schema: Type[BaseModel] = EstimateROIToolInput
 
-    def _run(self, stock_ticker: str, years: int) -> str:
+    def run(self, stock_ticker: str, years: int) -> str:
         try:
             stock = yf.Ticker(stock_ticker)
-            hist = stock.history(period=f"{years}y")
-            hist = hist.dropna()
+            hist = stock.history(period=f"{years}y").dropna()
 
             if hist.empty or len(hist) < 2:
                 return f"Not enough data to estimate ROI for {stock_ticker}."
@@ -149,5 +140,4 @@ class EstimateROITool(BaseTool):
             roi = (end_price / start_price) ** (1 / years) - 1
             return f"Estimated annualized ROI for {stock_ticker} over {years} years: {roi * 100:.2f}%"
         except Exception as e:
-            return f"Could not estimate ROI for {stock_ticker}. Error: {str(e)}"
-
+            return f"Error estimating ROI: {str(e)}"
