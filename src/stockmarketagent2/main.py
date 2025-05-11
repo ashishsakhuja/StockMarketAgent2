@@ -33,12 +33,12 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        "ticker": sys.argv[3].upper(),
-        "years": float(sys.argv[4])
+        "ticker": 'NVDA',
+        "years": 3.0
     }
 
     try:
-        Stockmarketagent2().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        Stockmarketagent2().crew().train(n_iterations=int(sys.argv[3]), inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
